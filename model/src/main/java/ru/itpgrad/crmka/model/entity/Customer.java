@@ -3,6 +3,8 @@ package ru.itpgrad.crmka.model.entity;
 import java.util.List;
 
 /**
+ * The customer is the main domain object that aggregates all other domain objects.
+ *
  * @author maslowis
  */
 public class Customer implements Entity<Integer> {
