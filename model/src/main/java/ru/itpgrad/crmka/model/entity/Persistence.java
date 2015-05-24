@@ -7,9 +7,9 @@ import java.io.Serializable;
  *
  * @author maslowis
  */
-public interface Entity<P extends Serializable> {
-
-    void setId(P id);
+public interface Persistence<P extends Serializable> {
 
     P getId();
+
+    void setId(P id);
 }

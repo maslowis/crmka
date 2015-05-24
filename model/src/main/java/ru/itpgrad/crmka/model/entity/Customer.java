@@ -1,5 +1,6 @@
 package ru.itpgrad.crmka.model.entity;
 
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -7,17 +8,48 @@ import java.util.List;
  *
  * @author maslowis
  */
-public class Customer implements Entity<Integer> {
+@Entity
+public class Customer implements Persistence<Integer> {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private CountryDirectory country;
-    private RegionDirectory region;
-    private CityDirectory city;
+    @OneToOne
+    @MapsId
+    private Country country;
+    @OneToOne
+    @MapsId
+    private Region region;
+    @OneToOne
+    @MapsId
+    private City city;
     private String name;
     private String description;
-    private StatusCustomerDirectory status;
+    @OneToOne
+    @MapsId
+    private StatusCustomer status;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "customer_id")
     private List<Contact> contacts;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "customer_id")
     private List<Activity> activities;
     private String note;
+
+    public Customer() {
+    }
+
+    public Customer(Integer id, Country country, Region region, City city, String name, String description, StatusCustomer status, List<Contact> contacts, List<Activity> activities, String note) {
+        this.id = id;
+        this.country = country;
+        this.region = region;
+        this.city = city;
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.contacts = contacts;
+        this.activities = activities;
+        this.note = note;
+    }
 
     @Override
     public Integer getId() {
@@ -29,27 +61,27 @@ public class Customer implements Entity<Integer> {
         this.id = id;
     }
 
-    public CountryDirectory getCountry() {
+    public Country getCountry() {
         return country;
     }
 
-    public void setCountry(CountryDirectory country) {
+    public void setCountry(Country country) {
         this.country = country;
     }
 
-    public RegionDirectory getRegion() {
+    public Region getRegion() {
         return region;
     }
 
-    public void setRegion(RegionDirectory region) {
+    public void setRegion(Region region) {
         this.region = region;
     }
 
-    public CityDirectory getCity() {
+    public City getCity() {
         return city;
     }
 
-    public void setCity(CityDirectory city) {
+    public void setCity(City city) {
         this.city = city;
     }
 
@@ -69,11 +101,11 @@ public class Customer implements Entity<Integer> {
         this.description = description;
     }
 
-    public StatusCustomerDirectory getStatus() {
+    public StatusCustomer getStatus() {
         return status;
     }
 
-    public void setStatus(StatusCustomerDirectory status) {
+    public void setStatus(StatusCustomer status) {
         this.status = status;
     }
 

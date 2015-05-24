@@ -1,20 +1,38 @@
 package ru.itpgrad.crmka.model.entity;
 
+import javax.persistence.*;
 import java.util.Date;
 
 /**
- * The activity work with the customer
+ * The activity - work with the customer
  *
  * @author maslowis
  */
-public class Activity implements Entity<Integer> {
+@Entity
+public class Activity implements Persistence<Integer> {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private StatusActivityDirectory status;
+    @OneToOne
+    @MapsId
+    private StatusActivity status;
     private Date date;
-    private Contact contact;
+
     private String description;
     private String result;
     private String note;
+
+    public Activity() {
+    }
+
+    public Activity(Integer id, StatusActivity status, Date date, String description, String result, String note) {
+        this.id = id;
+        this.status = status;
+        this.date = date;
+        this.description = description;
+        this.result = result;
+        this.note = note;
+    }
 
     @Override
     public Integer getId() {
@@ -26,11 +44,11 @@ public class Activity implements Entity<Integer> {
         this.id = id;
     }
 
-    public StatusActivityDirectory getStatus() {
+    public StatusActivity getStatus() {
         return status;
     }
 
-    public void setStatus(StatusActivityDirectory status) {
+    public void setStatus(StatusActivity status) {
         this.status = status;
     }
 
@@ -40,14 +58,6 @@ public class Activity implements Entity<Integer> {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public Contact getContact() {
-        return contact;
-    }
-
-    public void setContact(Contact contact) {
-        this.contact = contact;
     }
 
     public String getDescription() {
