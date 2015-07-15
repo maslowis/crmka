@@ -24,10 +24,9 @@
 
 package ru.itpgrad.crmka.model.dao.imp;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import ru.itpgrad.crmka.model.dao.Dao;
 import ru.itpgrad.crmka.model.entity.Entity;
 
@@ -45,7 +44,7 @@ class AbstractHibernateDao<E extends Entity, ID extends Serializable> implements
     private final Class<E> targetClass;
 
     protected AbstractHibernateDao(SessionFactory sessionFactory, Class<E> targetClass) {
-        logger = LoggerFactory.getLogger(targetClass);
+        logger = Logger.getLogger(targetClass);
         this.sessionFactory = sessionFactory;
         this.targetClass = targetClass;
     }

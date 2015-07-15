@@ -3,27 +3,32 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <!--Main-->
     <groupId>ru.itpgrad</groupId>
     <artifactId>crmka</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+
     <!--Modules-->
     <modules>
         <module>model</module>
         <module>service</module>
     </modules>
+
     <!--Properties-->
     <properties>
-        <!--Version dependencies-->
+        <!--Java version-->
         <java.version>1.7</java.version>
+        <!--Version plugins-->
+        <mvn.compiler.version>3.3</mvn.compiler.version>
+        <!--Version dependencies-->
         <spring.version>4.1.6.RELEASE</spring.version>
-        <spring.data.version>1.8.0.RELEASE</spring.data.version>
         <hibernate.version>4.3.10.Final</hibernate.version>
         <mysql.driver.version>5.1.35</mysql.driver.version>
+        <log4j.version>1.2.17</log4j.version>
         <junit.version>4.12</junit.version>
         <mockito.version>1.10.19</mockito.version>
     </properties>
+
     <!--Dependencies-->
     <dependencyManagement>
         <dependencies>
@@ -39,14 +44,19 @@
                 <version>${spring.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.springframework.data</groupId>
-                <artifactId>spring-data-jpa</artifactId>
-                <version>${spring.data.version}</version>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-orm</artifactId>
+                <version>${spring.version}</version>
             </dependency>
-            <!--Hibernate JPA Support-->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <!--Hibernate ORM-->
             <dependency>
                 <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-entitymanager</artifactId>
+                <artifactId>hibernate-core</artifactId>
                 <version>${hibernate.version}</version>
             </dependency>
             <!--Drivers-->
@@ -54,6 +64,12 @@
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql.driver.version}</version>
+            </dependency>
+            <!--Logging-->
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>${log4j.version}</version>
             </dependency>
             <!--Testing Framework-->
             <dependency>
@@ -68,5 +84,20 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <!--Plugins-->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${mvn.compiler.version}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
