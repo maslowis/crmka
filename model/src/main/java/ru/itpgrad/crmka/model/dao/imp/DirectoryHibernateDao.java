@@ -26,6 +26,7 @@ package ru.itpgrad.crmka.model.dao.imp;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import ru.itpgrad.crmka.model.entity.imp.DirectoryEntity;
 
@@ -38,7 +39,7 @@ import ru.itpgrad.crmka.model.entity.imp.DirectoryEntity;
 public class DirectoryHibernateDao extends AbstractHibernateDao<DirectoryEntity, Integer> {
 
     @Autowired
-    public DirectoryHibernateDao(SessionFactory sessionFactory) {
+    public DirectoryHibernateDao(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
         super(sessionFactory, DirectoryEntity.class);
     }
 
