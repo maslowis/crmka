@@ -34,7 +34,12 @@ import java.util.Date;
  */
 @javax.persistence.Entity
 @Table(name = "activities")
-public class ActivityEntity extends AbstractEntity {
+public class ActivityEntity implements ru.itpgrad.crmka.model.entity.Entity<Integer> {
+
+    @Column
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
     @Column
     @OneToOne
@@ -62,13 +67,23 @@ public class ActivityEntity extends AbstractEntity {
     }
 
     public ActivityEntity(Integer id, DirectoryEntity status, Date date, String description, String result, String note, CustomerEntity customer) {
-        super(id);
+        this.id = id;
         this.status = status;
         this.date = date;
         this.description = description;
         this.result = result;
         this.note = note;
         this.customer = customer;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public DirectoryEntity getStatus() {

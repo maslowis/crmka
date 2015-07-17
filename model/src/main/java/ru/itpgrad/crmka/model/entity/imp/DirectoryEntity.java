@@ -24,13 +24,29 @@
 
 package ru.itpgrad.crmka.model.entity.imp;
 
+import ru.itpgrad.crmka.model.entity.Entity;
+
+import javax.persistence.*;
+
 /**
  * Directory represent a reference values such as country, city, statuses.
  *
  * @author Ivan Maslov
  */
-public class DirectoryEntity extends AbstractEntity {
+@javax.persistence.Entity
+@Table(name = "directories")
+public class DirectoryEntity implements Entity<Integer> {
+
+    @Column
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
+    @Column
+    @Enumerated(EnumType.STRING)
     private Type type;
+
+    @Column
     private String value;
 
     public static enum Type {
@@ -45,9 +61,19 @@ public class DirectoryEntity extends AbstractEntity {
     }
 
     public DirectoryEntity(Integer id, Type type, String value) {
-        super(id);
+        this.id = id;
         this.type = type;
         this.value = value;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Type getType() {

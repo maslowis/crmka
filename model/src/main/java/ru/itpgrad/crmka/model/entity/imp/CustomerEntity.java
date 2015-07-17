@@ -37,7 +37,12 @@ import static javax.persistence.FetchType.LAZY;
  */
 @javax.persistence.Entity
 @Table(name = "customers")
-public class CustomerEntity extends AbstractEntity {
+public class CustomerEntity implements ru.itpgrad.crmka.model.entity.Entity<Integer> {
+
+    @Column
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
     @Column
     @OneToOne
@@ -78,7 +83,7 @@ public class CustomerEntity extends AbstractEntity {
     }
 
     public CustomerEntity(Integer id, DirectoryEntity country, DirectoryEntity region, DirectoryEntity city, String name, String description, DirectoryEntity status, List<ContactEntity> contacts, List<ActivityEntity> activities, String note) {
-        super(id);
+        this.id = id;
         this.country = country;
         this.region = region;
         this.city = city;
@@ -88,6 +93,16 @@ public class CustomerEntity extends AbstractEntity {
         this.contacts = contacts;
         this.activities = activities;
         this.note = note;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public DirectoryEntity getCountry() {

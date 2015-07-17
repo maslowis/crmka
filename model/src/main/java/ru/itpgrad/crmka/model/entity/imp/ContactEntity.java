@@ -24,10 +24,7 @@
 
 package ru.itpgrad.crmka.model.entity.imp;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Contact of customer
@@ -36,7 +33,12 @@ import javax.persistence.Table;
  */
 @javax.persistence.Entity
 @Table(name = "contacts")
-public class ContactEntity extends AbstractEntity {
+public class ContactEntity implements ru.itpgrad.crmka.model.entity.Entity<Integer> {
+
+    @Column
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
     @Column
     private String position;
@@ -59,12 +61,22 @@ public class ContactEntity extends AbstractEntity {
     }
 
     public ContactEntity(Integer id, String position, String name, String phone, String mail, CustomerEntity customer) {
-        super(id);
+        this.id = id;
         this.position = position;
         this.name = name;
         this.phone = phone;
         this.mail = mail;
         this.customer = customer;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getPosition() {
