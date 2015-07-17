@@ -32,7 +32,7 @@ import javax.persistence.Table;
 /**
  * Contact of customer
  *
- * @author maslowis
+ * @author Ivan Maslov
  */
 @javax.persistence.Entity
 @Table(name = "contacts")

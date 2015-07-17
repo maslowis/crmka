@@ -30,7 +30,7 @@ import java.util.Date;
 /**
  * Activity with the client
  *
- * @author maslowis
+ * @author Ivan Maslov
  */
 @javax.persistence.Entity
 @Table(name = "activities")

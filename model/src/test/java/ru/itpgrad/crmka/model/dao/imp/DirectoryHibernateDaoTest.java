@@ -43,6 +43,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.*;
+import static ru.itpgrad.crmka.model.entity.imp.DirectoryEntity.Type;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DirectoryHibernateDaoTest {
@@ -63,7 +64,7 @@ public class DirectoryHibernateDaoTest {
 
     private final Integer id = 999;
 
-    private final DirectoryEntity.Type type = DirectoryEntity.Type.CITY;
+    private final Type type = Type.CITY;
 
     private final String value = "Omsk";
 

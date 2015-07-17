@@ -33,7 +33,7 @@ import static javax.persistence.FetchType.LAZY;
 /**
  * Customer is main domain object that aggregates all other domain objects.
  *
- * @author maslowis
+ * @author Ivan Maslov
  */
 @javax.persistence.Entity
 @Table(name = "customers")
