@@ -1,2 +1,2 @@
 # CRMka
-Simple CRM for track activity with clients.
+Simple application for track activity with clients.
