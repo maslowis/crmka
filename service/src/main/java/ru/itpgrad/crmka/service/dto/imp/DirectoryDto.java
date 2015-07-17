@@ -24,12 +24,16 @@
 
 package ru.itpgrad.crmka.service.dto.imp;
 
+import ru.itpgrad.crmka.service.dto.Dto;
+
 /**
  * DTO for {@link ru.itpgrad.crmka.model.entity.imp.DirectoryEntity}
  *
  * @author Ivan Maslov
  */
-public class DirectoryDto extends AbstractDto {
+public class DirectoryDto implements Dto<Integer> {
+
+    private Integer id;
 
     private String type;
 
@@ -39,9 +43,19 @@ public class DirectoryDto extends AbstractDto {
     }
 
     public DirectoryDto(Integer id, String type, String value) {
-        super(id);
+        this.id = id;
         this.type = type;
         this.value = value;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getType() {

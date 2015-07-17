@@ -25,6 +25,7 @@
 package ru.itpgrad.crmka.service.dto.imp;
 
 import ru.itpgrad.crmka.model.entity.imp.DirectoryEntity;
+import ru.itpgrad.crmka.service.dto.Dto;
 
 import java.util.Date;
 
@@ -33,7 +34,9 @@ import java.util.Date;
  *
  * @author Ivan Maslov
  */
-public class ActivityDto extends AbstractDto {
+public class ActivityDto implements Dto<Integer> {
+
+    private Integer id;
 
     private DirectoryEntity status;
 
@@ -51,13 +54,23 @@ public class ActivityDto extends AbstractDto {
     }
 
     public ActivityDto(Integer id, DirectoryEntity status, Date date, String description, String result, String note, CustomerDto customer) {
-        super(id);
+        this.id = id;
         this.status = status;
         this.date = date;
         this.description = description;
         this.result = result;
         this.note = note;
         this.customer = customer;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public DirectoryEntity getStatus() {

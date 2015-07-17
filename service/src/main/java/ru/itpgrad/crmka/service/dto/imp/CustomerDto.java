@@ -24,6 +24,8 @@
 
 package ru.itpgrad.crmka.service.dto.imp;
 
+import ru.itpgrad.crmka.service.dto.Dto;
+
 import java.util.List;
 
 /**
@@ -31,7 +33,9 @@ import java.util.List;
  *
  * @author Ivan Maslov
  */
-public class CustomerDto extends AbstractDto {
+public class CustomerDto implements Dto<Integer> {
+
+    private Integer id;
 
     private DirectoryDto country;
 
@@ -55,7 +59,7 @@ public class CustomerDto extends AbstractDto {
     }
 
     public CustomerDto(Integer id, DirectoryDto country, DirectoryDto region, DirectoryDto city, String name, String description, DirectoryDto status, List<ContactDto> contacts, List<ActivityDto> activities, String note) {
-        super(id);
+        this.id = id;
         this.country = country;
         this.region = region;
         this.city = city;
@@ -65,6 +69,16 @@ public class CustomerDto extends AbstractDto {
         this.contacts = contacts;
         this.activities = activities;
         this.note = note;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public DirectoryDto getCountry() {

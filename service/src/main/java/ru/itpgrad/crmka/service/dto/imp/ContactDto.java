@@ -24,12 +24,16 @@
 
 package ru.itpgrad.crmka.service.dto.imp;
 
+import ru.itpgrad.crmka.service.dto.Dto;
+
 /**
  * DTO for {@link ru.itpgrad.crmka.model.entity.imp.ContactEntity}
  *
  * @author Ivan Maslov
  */
-public class ContactDto extends AbstractDto {
+public class ContactDto implements Dto<Integer> {
+
+    private Integer id;
 
     private String position;
 
@@ -45,12 +49,22 @@ public class ContactDto extends AbstractDto {
     }
 
     public ContactDto(Integer id, String position, String name, String phone, String mail, CustomerDto customer) {
-        super(id);
+        this.id = id;
         this.position = position;
         this.name = name;
         this.phone = phone;
         this.mail = mail;
         this.customer = customer;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getPosition() {
