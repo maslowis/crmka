@@ -24,6 +24,7 @@
 
 package ru.itpgrad.crmka.service.imp;
 
+import org.apache.log4j.Logger;
 import org.dozer.Mapper;
 import org.springframework.transaction.annotation.Transactional;
 import ru.itpgrad.crmka.model.dao.Dao;
@@ -43,13 +44,14 @@ import java.util.List;
  * @author Ivan Maslov
  */
 abstract class AbstractService<E extends Entity, D extends Dto, ID extends Serializable> implements Service<D, ID> {
-
+    protected final Logger logger;
     protected final Dao<E, ID> dao;
     protected final Mapper mapper;
     private final Class<E> entityClass;
     private final Class<D> dtoClass;
 
     protected AbstractService(Dao<E, ID> dao, Mapper mapper, Class<E> entityClass, Class<D> dtoClass) {
+        logger = Logger.getLogger(getClass());
         this.dao = dao;
         this.mapper = mapper;
         this.entityClass = entityClass;
@@ -73,8 +75,8 @@ abstract class AbstractService<E extends Entity, D extends Dto, ID extends Seria
     @Transactional
     @Override
     public List<D> readAll() {
-        List<D> results = new ArrayList<>();
         List<E> entities = dao.readAll();
+        List<D> results = new ArrayList<>();
         for (E entity : entities) {
             D dto = mapper.map(entity, dtoClass);
             results.add(dto);
