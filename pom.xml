@@ -26,8 +26,11 @@
         <hibernate.version>4.3.10.Final</hibernate.version>
         <mysql.driver.version>5.1.35</mysql.driver.version>
         <log4j.version>1.2.17</log4j.version>
+        <slf4j-log4j12.version>1.7.12</slf4j-log4j12.version>
         <junit.version>4.12</junit.version>
-        <mockito.version>1.10.19</mockito.version>
+        <mockito.version>1.9.5</mockito.version>
+        <dbunit.version>2.5.1</dbunit.version>
+        <spring.dbunit.version>1.2.1</spring.dbunit.version>
     </properties>
 
     <!--Dependencies-->
@@ -83,6 +86,11 @@
                 <artifactId>log4j</artifactId>
                 <version>${log4j.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>${slf4j-log4j12.version}</version>
+            </dependency>
             <!--Testing Framework-->
             <dependency>
                 <groupId>junit</groupId>
@@ -100,6 +108,18 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-test</artifactId>
                 <version>${spring.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.dbunit</groupId>
+                <artifactId>dbunit</artifactId>
+                <version>${dbunit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.github.springtestdbunit</groupId>
+                <artifactId>spring-test-dbunit</artifactId>
+                <version>${spring.dbunit.version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
