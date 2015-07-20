@@ -44,7 +44,7 @@ class AbstractHibernateDao<E extends Entity, ID extends Serializable> implements
     private final Class<E> targetClass;
 
     protected AbstractHibernateDao(SessionFactory sessionFactory, Class<E> targetClass) {
-        logger = Logger.getLogger(targetClass);
+        logger = Logger.getLogger(getClass());
         this.sessionFactory = sessionFactory;
         this.targetClass = targetClass;
     }
