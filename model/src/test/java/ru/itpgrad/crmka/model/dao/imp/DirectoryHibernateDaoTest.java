@@ -39,9 +39,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 import static ru.itpgrad.crmka.model.entity.imp.DirectoryEntity.Type;
 
@@ -66,7 +64,7 @@ public class DirectoryHibernateDaoTest {
 
     private final Type type = Type.CITY;
 
-    private final String value = "Omsk";
+    private final String value = "test value";
 
     @Before
     public void setUp() {
@@ -83,6 +81,11 @@ public class DirectoryHibernateDaoTest {
         verify(session, times(1)).save(entity);
         assertNotNull(result);
         assertEquals(id, result);
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void createFKTest() {
+        dao.create(entity, id);
     }
 
     @Test
@@ -109,6 +112,7 @@ public class DirectoryHibernateDaoTest {
         verify(criteria, times(1)).list();
         assertNotNull(result);
         assertFalse(result.isEmpty());
+        assertTrue(1 == result.size());
         assertEquals(id, result.get(0).getId());
         assertEquals(type, result.get(0).getType());
         assertEquals(value, result.get(0).getValue());
@@ -119,6 +123,11 @@ public class DirectoryHibernateDaoTest {
         dao.update(entity);
         verify(sessionFactory, times(1)).getCurrentSession();
         verify(session, times(1)).update(entity);
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void updateFKTest() {
+        dao.update(entity, id);
     }
 
     @Test

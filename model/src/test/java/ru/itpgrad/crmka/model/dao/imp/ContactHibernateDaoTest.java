@@ -34,6 +34,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import ru.itpgrad.crmka.model.entity.imp.ContactEntity;
+import ru.itpgrad.crmka.model.entity.imp.CustomerEntity;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -76,7 +77,7 @@ public class ContactHibernateDaoTest {
     }
 
     @Test
-    public void testCreate() {
+    public void createTest() {
         Serializable serializable = id;
         when(session.save(entity)).thenReturn(serializable);
         Integer result = dao.create(entity);
@@ -87,7 +88,19 @@ public class ContactHibernateDaoTest {
     }
 
     @Test
-    public void testRead() {
+    public void createFKTest() {
+        Serializable serializable = id;
+        when(session.save(entity)).thenReturn(serializable);
+        Integer result = dao.create(entity, id);
+        verify(sessionFactory, times(2)).getCurrentSession();
+        verify(session, times(1)).get(CustomerEntity.class, id);
+        verify(session, times(1)).save(entity);
+        assertNotNull(result);
+        assertEquals(id, result);
+    }
+
+    @Test
+    public void readTest() {
         Object object = entity;
         when(session.get(ContactEntity.class, id)).thenReturn(object);
         ContactEntity result = dao.read(id);
@@ -102,7 +115,7 @@ public class ContactHibernateDaoTest {
     }
 
     @Test
-    public void testReadAll() {
+    public void readAllTest() {
         Object object = entity;
         when(session.createCriteria(ContactEntity.class)).thenReturn(criteria);
         when(criteria.list()).thenReturn(Arrays.asList(object));
@@ -120,14 +133,22 @@ public class ContactHibernateDaoTest {
     }
 
     @Test
-    public void testUpdate() {
+    public void updateTest() {
         dao.update(entity);
         verify(sessionFactory, times(1)).getCurrentSession();
         verify(session, times(1)).update(entity);
     }
 
     @Test
-    public void testDelete() {
+    public void updateFKTest() {
+        dao.update(entity, id);
+        verify(sessionFactory, times(2)).getCurrentSession();
+        verify(session, times(1)).get(CustomerEntity.class, id);
+        verify(session, times(1)).update(entity);
+    }
+
+    @Test
+    public void deleteTest() {
         dao.delete(entity);
         verify(sessionFactory, times(1)).getCurrentSession();
         verify(session, times(1)).delete(entity);
