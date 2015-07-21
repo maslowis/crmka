@@ -73,4 +73,13 @@ public class DirectoryDto implements Dto<Integer> {
     public void setValue(String value) {
         this.value = value;
     }
+
+    @Override
+    public String toString() {
+        return "DirectoryDto{" +
+                "id=" + id +
+                ", type='" + type + '\'' +
+                ", value='" + value + '\'' +
+                '}';
+    }
 }

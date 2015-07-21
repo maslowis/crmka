@@ -24,7 +24,6 @@
 
 package ru.itpgrad.crmka.service.dto.imp;
 
-import ru.itpgrad.crmka.model.entity.imp.DirectoryEntity;
 import ru.itpgrad.crmka.service.dto.Dto;
 
 import java.util.Date;
@@ -38,7 +37,7 @@ public class ActivityDto implements Dto<Integer> {
 
     private Integer id;
 
-    private DirectoryEntity status;
+    private DirectoryDto status;
 
     private Date date;
 
@@ -48,19 +47,16 @@ public class ActivityDto implements Dto<Integer> {
 
     private String note;
 
-    private CustomerDto customer;
-
     public ActivityDto() {
     }
 
-    public ActivityDto(Integer id, DirectoryEntity status, Date date, String description, String result, String note, CustomerDto customer) {
+    public ActivityDto(Integer id, DirectoryDto status, Date date, String description, String result, String note) {
         this.id = id;
         this.status = status;
         this.date = date;
         this.description = description;
         this.result = result;
         this.note = note;
-        this.customer = customer;
     }
 
     @Override
@@ -73,11 +69,11 @@ public class ActivityDto implements Dto<Integer> {
         this.id = id;
     }
 
-    public DirectoryEntity getStatus() {
+    public DirectoryDto getStatus() {
         return status;
     }
 
-    public void setStatus(DirectoryEntity status) {
+    public void setStatus(DirectoryDto status) {
         this.status = status;
     }
 
@@ -113,11 +109,15 @@ public class ActivityDto implements Dto<Integer> {
         this.note = note;
     }
 
-    public CustomerDto getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(CustomerDto customer) {
-        this.customer = customer;
+    @Override
+    public String toString() {
+        return "ActivityDto{" +
+                "id=" + id +
+                ", status=" + status +
+                ", date=" + date +
+                ", description='" + description + '\'' +
+                ", result='" + result + '\'' +
+                ", note='" + note + '\'' +
+                '}';
     }
 }

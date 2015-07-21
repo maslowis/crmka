@@ -43,18 +43,15 @@ public class ContactDto implements Dto<Integer> {
 
     private String mail;
 
-    private CustomerDto customer;
-
     public ContactDto() {
     }
 
-    public ContactDto(Integer id, String position, String name, String phone, String mail, CustomerDto customer) {
+    public ContactDto(Integer id, String position, String name, String phone, String mail) {
         this.id = id;
         this.position = position;
         this.name = name;
         this.phone = phone;
         this.mail = mail;
-        this.customer = customer;
     }
 
     @Override
@@ -99,11 +96,14 @@ public class ContactDto implements Dto<Integer> {
         this.mail = mail;
     }
 
-    public CustomerDto getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(CustomerDto customer) {
-        this.customer = customer;
+    @Override
+    public String toString() {
+        return "ContactDto{" +
+                "id=" + id +
+                ", position='" + position + '\'' +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", mail='" + mail + '\'' +
+                '}';
     }
 }

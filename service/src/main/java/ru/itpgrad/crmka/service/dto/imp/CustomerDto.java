@@ -152,4 +152,20 @@ public class CustomerDto implements Dto<Integer> {
     public void setNote(String note) {
         this.note = note;
     }
+
+    @Override
+    public String toString() {
+        return "CustomerDto{" +
+                "id=" + id +
+                ", country=" + country +
+                ", region=" + region +
+                ", city=" + city +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                ", contacts=" + contacts +
+                ", activities=" + activities +
+                ", note='" + note + '\'' +
+                '}';
+    }
 }
