@@ -59,6 +59,14 @@ class AbstractHibernateDao<E extends Entity, ID extends Serializable> implements
         return (ID) getSession().save(newInstance);
     }
 
+    /**
+     * Default implementation this method throw {@link java.lang.UnsupportedOperationException}
+     */
+    @Override
+    public ID create(E newInstance, ID foreignId) {
+        throw new UnsupportedOperationException("Table don't have foreign key");
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public E read(ID id) {
@@ -74,6 +82,14 @@ class AbstractHibernateDao<E extends Entity, ID extends Serializable> implements
     @Override
     public void update(E transientObject) {
         getSession().update(transientObject);
+    }
+
+    /**
+     * Default implementation this method throw {@link java.lang.UnsupportedOperationException}
+     */
+    @Override
+    public void update(E transientObject, ID foreignId) {
+        throw new UnsupportedOperationException("Table don't have foreign key");
     }
 
     @Override

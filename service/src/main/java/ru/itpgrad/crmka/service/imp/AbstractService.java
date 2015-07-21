@@ -67,6 +67,13 @@ abstract class AbstractService<E extends Entity, D extends Dto, ID extends Seria
 
     @Transactional
     @Override
+    public ID create(D newInstance, ID foreignId) {
+        E entity = mapper.map(newInstance, entityClass);
+        return dao.create(entity, foreignId);
+    }
+
+    @Transactional
+    @Override
     public D read(ID id) {
         E entity = dao.read(id);
         return mapper.map(entity, dtoClass);
@@ -89,6 +96,13 @@ abstract class AbstractService<E extends Entity, D extends Dto, ID extends Seria
     public void update(D transientObject) {
         E entity = mapper.map(transientObject, entityClass);
         dao.update(entity);
+    }
+
+    @Transactional
+    @Override
+    public void update(D transientObject, ID foreignId) {
+        E entity = mapper.map(transientObject, entityClass);
+        dao.update(entity, foreignId);
     }
 
     @Transactional

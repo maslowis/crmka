@@ -45,6 +45,15 @@ public interface Dao<E extends Entity, ID extends Serializable> {
     ID create(E newInstance);
 
     /**
+     * Saves the new object with foreign key in the database
+     *
+     * @param newInstance new object
+     * @param foreignId   foreign key
+     * @return primary key
+     */
+    ID create(E newInstance, ID foreignId);
+
+    /**
      * Returns the object stored in the database, using the specified id as the primary key
      *
      * @param id primary key
@@ -65,6 +74,15 @@ public interface Dao<E extends Entity, ID extends Serializable> {
      * @param transientObject changed object
      */
     void update(E transientObject);
+
+    /**
+     * Saves the changes made to the object with foreign key
+     *
+     * @param transientObject changed object
+     * @param foreignId       foreign key
+     */
+    void update(E transientObject, ID foreignId);
+
 
     /**
      * Removes the object from the database

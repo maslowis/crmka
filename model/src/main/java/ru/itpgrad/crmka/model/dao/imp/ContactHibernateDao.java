@@ -29,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import ru.itpgrad.crmka.model.entity.imp.ContactEntity;
+import ru.itpgrad.crmka.model.entity.imp.CustomerEntity;
 
 /**
  * DAO implementation for {@link ru.itpgrad.crmka.model.entity.imp.ContactEntity}
@@ -41,5 +42,19 @@ public class ContactHibernateDao extends AbstractHibernateDao<ContactEntity, Int
     @Autowired
     public ContactHibernateDao(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
         super(sessionFactory, ContactEntity.class);
+    }
+
+    @Override
+    public Integer create(ContactEntity newInstance, Integer foreignId) {
+        CustomerEntity customer = (CustomerEntity) getSession().get(CustomerEntity.class, foreignId);
+        newInstance.setCustomer(customer);
+        return create(newInstance);
+    }
+
+    @Override
+    public void update(ContactEntity transientObject, Integer foreignId) {
+        CustomerEntity customer = (CustomerEntity) getSession().get(CustomerEntity.class, foreignId);
+        transientObject.setCustomer(customer);
+        update(transientObject);
     }
 }

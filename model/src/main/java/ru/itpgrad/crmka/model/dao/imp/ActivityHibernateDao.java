@@ -29,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import ru.itpgrad.crmka.model.entity.imp.ActivityEntity;
+import ru.itpgrad.crmka.model.entity.imp.CustomerEntity;
 
 /**
  * DAO implementation for {@link ru.itpgrad.crmka.model.entity.imp.ActivityEntity}
@@ -41,5 +42,19 @@ public class ActivityHibernateDao extends AbstractHibernateDao<ActivityEntity, I
     @Autowired
     public ActivityHibernateDao(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
         super(sessionFactory, ActivityEntity.class);
+    }
+
+    @Override
+    public Integer create(ActivityEntity newInstance, Integer foreignId) {
+        CustomerEntity customer = (CustomerEntity) getSession().get(CustomerEntity.class, foreignId);
+        newInstance.setCustomer(customer);
+        return create(newInstance);
+    }
+
+    @Override
+    public void update(ActivityEntity transientObject, Integer foreignId) {
+        CustomerEntity customer = (CustomerEntity) getSession().get(CustomerEntity.class, foreignId);
+        transientObject.setCustomer(customer);
+        update(transientObject);
     }
 }
