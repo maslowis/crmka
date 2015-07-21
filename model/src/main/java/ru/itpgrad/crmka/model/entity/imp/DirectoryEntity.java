@@ -37,7 +37,6 @@ import javax.persistence.*;
 @Table(name = "directories")
 public class DirectoryEntity implements Entity<Integer> {
 
-    @Column
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -90,5 +89,14 @@ public class DirectoryEntity implements Entity<Integer> {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return "DirectoryEntity{" +
+                "id=" + id +
+                ", type=" + type +
+                ", value='" + value + '\'' +
+                '}';
     }
 }

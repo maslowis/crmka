@@ -35,7 +35,6 @@ import javax.persistence.*;
 @Table(name = "contacts")
 public class ContactEntity implements ru.itpgrad.crmka.model.entity.Entity<Integer> {
 
-    @Column
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -52,7 +51,6 @@ public class ContactEntity implements ru.itpgrad.crmka.model.entity.Entity<Integ
     @Column
     private String mail;
 
-    @Column
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private CustomerEntity customer;
@@ -117,5 +115,17 @@ public class ContactEntity implements ru.itpgrad.crmka.model.entity.Entity<Integ
 
     public void setCustomer(CustomerEntity customer) {
         this.customer = customer;
+    }
+
+    @Override
+    public String toString() {
+        return "ContactEntity{" +
+                "id=" + id +
+                ", position='" + position + '\'' +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", mail='" + mail + '\'' +
+                ", customer=" + customer +
+                '}';
     }
 }

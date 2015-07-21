@@ -39,22 +39,18 @@ import static javax.persistence.FetchType.LAZY;
 @Table(name = "customers")
 public class CustomerEntity implements ru.itpgrad.crmka.model.entity.Entity<Integer> {
 
-    @Column
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column
     @OneToOne
     @MapsId
     private DirectoryEntity country;
 
-    @Column
     @OneToOne
     @MapsId
     private DirectoryEntity region;
 
-    @Column
     @OneToOne
     @MapsId
     private DirectoryEntity city;
@@ -65,15 +61,14 @@ public class CustomerEntity implements ru.itpgrad.crmka.model.entity.Entity<Inte
     @Column
     private String description;
 
-    @Column
     @OneToOne
     @MapsId
     private DirectoryEntity status;
 
-    @OneToMany(targetEntity = ContactEntity.class, cascade = ALL, mappedBy = "customers", fetch = LAZY)
+    @OneToMany(targetEntity = ContactEntity.class, cascade = ALL, mappedBy = "customer", fetch = LAZY)
     private List<ContactEntity> contacts;
 
-    @OneToMany(targetEntity = ActivityEntity.class, cascade = ALL, mappedBy = "customers", fetch = LAZY)
+    @OneToMany(targetEntity = ActivityEntity.class, cascade = ALL, mappedBy = "customer", fetch = LAZY)
     private List<ActivityEntity> activities;
 
     @Column
@@ -175,5 +170,21 @@ public class CustomerEntity implements ru.itpgrad.crmka.model.entity.Entity<Inte
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    @Override
+    public String toString() {
+        return "CustomerEntity{" +
+                "id=" + id +
+                ", country=" + country +
+                ", region=" + region +
+                ", city=" + city +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                ", contacts=" + contacts +
+                ", activities=" + activities +
+                ", note='" + note + '\'' +
+                '}';
     }
 }

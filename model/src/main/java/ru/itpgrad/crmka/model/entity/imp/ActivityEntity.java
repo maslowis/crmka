@@ -36,12 +36,10 @@ import java.util.Date;
 @Table(name = "activities")
 public class ActivityEntity implements ru.itpgrad.crmka.model.entity.Entity<Integer> {
 
-    @Column
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column
     @OneToOne
     @MapsId
     private DirectoryEntity status;
@@ -58,7 +56,6 @@ public class ActivityEntity implements ru.itpgrad.crmka.model.entity.Entity<Inte
     @Column
     private String note;
 
-    @Column
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private CustomerEntity customer;
@@ -132,5 +129,18 @@ public class ActivityEntity implements ru.itpgrad.crmka.model.entity.Entity<Inte
 
     public void setCustomer(CustomerEntity customer) {
         this.customer = customer;
+    }
+
+    @Override
+    public String toString() {
+        return "ActivityEntity{" +
+                "id=" + id +
+                ", status=" + status +
+                ", date=" + date +
+                ", description='" + description + '\'' +
+                ", result='" + result + '\'' +
+                ", note='" + note + '\'' +
+                ", customer=" + customer +
+                '}';
     }
 }
