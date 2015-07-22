@@ -58,20 +58,17 @@ public class ContactHibernateDaoTest {
     @InjectMocks
     private ContactHibernateDao dao;
 
-    private ContactEntity testedEntity;
-
-    private ContactEntity expectedEntity;
-
     private final Integer id = 999;
+
+    private final Integer foreignId = 111;
+
+    private final ContactEntity expectedEntity = getNewEntity();
+
+    private ContactEntity testedEntity;
 
     @Before
     public void setUp() {
-        String position = "test position";
-        String name = "test name";
-        String phone = "test phone";
-        String mail = "test mail";
-        testedEntity = new ContactEntity(id, position, name, phone, mail, null);
-        expectedEntity = new ContactEntity(id, position, name, phone, mail, null);
+        testedEntity = getNewEntity();
         when(sessionFactory.getCurrentSession()).thenReturn(session);
     }
 
@@ -90,9 +87,9 @@ public class ContactHibernateDaoTest {
     public void createFKTest() {
         Serializable serializable = id;
         when(session.save(testedEntity)).thenReturn(serializable);
-        Integer result = dao.create(testedEntity, id);
+        Integer result = dao.create(testedEntity, foreignId);
         verify(sessionFactory, times(2)).getCurrentSession();
-        verify(session, times(1)).get(CustomerEntity.class, id);
+        verify(session, times(1)).get(CustomerEntity.class, foreignId);
         verify(session, times(1)).save(testedEntity);
         assertNotNull(result);
         assertEquals(id, result);
@@ -133,9 +130,9 @@ public class ContactHibernateDaoTest {
 
     @Test
     public void updateFKTest() {
-        dao.update(testedEntity, id);
+        dao.update(testedEntity, foreignId);
         verify(sessionFactory, times(2)).getCurrentSession();
-        verify(session, times(1)).get(CustomerEntity.class, id);
+        verify(session, times(1)).get(CustomerEntity.class, foreignId);
         verify(session, times(1)).update(testedEntity);
     }
 
@@ -144,5 +141,9 @@ public class ContactHibernateDaoTest {
         dao.delete(testedEntity);
         verify(sessionFactory, times(1)).getCurrentSession();
         verify(session, times(1)).delete(testedEntity);
+    }
+
+    private ContactEntity getNewEntity() {
+        return new ContactEntity(id, "test position", "test name", "test phone", "test mail", null);
     }
 }

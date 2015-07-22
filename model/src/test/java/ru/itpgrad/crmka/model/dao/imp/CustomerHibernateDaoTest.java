@@ -57,19 +57,17 @@ public class CustomerHibernateDaoTest {
     @InjectMocks
     private CustomerHibernateDao dao;
 
-    private CustomerEntity testedEntity;
-
-    private CustomerEntity expectedEntity;
-
     private final Integer id = 999;
+
+    private final Integer foreignId = 111;
+
+    private final CustomerEntity expectedEntity = getNewEntity();
+
+    private CustomerEntity testedEntity;
 
     @Before
     public void setUp() {
-        String name = "test name";
-        String description = "test description";
-        String note = "test note";
-        testedEntity = new CustomerEntity(id, null, null, null, name, description, null, null, null, note);
-        expectedEntity = new CustomerEntity(id, null, null, null, name, description, null, null, null, note);
+        testedEntity = getNewEntity();
         when(sessionFactory.getCurrentSession()).thenReturn(session);
     }
 
@@ -86,7 +84,7 @@ public class CustomerHibernateDaoTest {
 
     @Test(expected = UnsupportedOperationException.class)
     public void createFKTest() {
-        dao.create(testedEntity, id);
+        dao.create(testedEntity, foreignId);
     }
 
     @Test
@@ -124,7 +122,7 @@ public class CustomerHibernateDaoTest {
 
     @Test(expected = UnsupportedOperationException.class)
     public void updateFKTest() {
-        dao.update(testedEntity, id);
+        dao.update(testedEntity, foreignId);
     }
 
     @Test
@@ -132,5 +130,9 @@ public class CustomerHibernateDaoTest {
         dao.delete(testedEntity);
         verify(sessionFactory, times(1)).getCurrentSession();
         verify(session, times(1)).delete(testedEntity);
+    }
+
+    private CustomerEntity getNewEntity() {
+        return new CustomerEntity(id, null, null, null, "test name", "test description", null, null, null, "test note");
     }
 }

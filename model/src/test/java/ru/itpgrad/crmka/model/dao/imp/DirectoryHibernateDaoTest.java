@@ -58,18 +58,17 @@ public class DirectoryHibernateDaoTest {
     @InjectMocks
     private DirectoryHibernateDao dao;
 
-    private DirectoryEntity testedEntity;
-
-    private DirectoryEntity expectedEntity;
-
     private final Integer id = 999;
+
+    private final Integer foreignId = 111;
+
+    private final DirectoryEntity expectedEntity = getNewEntity();
+
+    private DirectoryEntity testedEntity;
 
     @Before
     public void setUp() {
-        Type type = Type.CITY;
-        String value = "test value";
-        testedEntity = new DirectoryEntity(id, type, value);
-        expectedEntity = new DirectoryEntity(id, type, value);
+        testedEntity = getNewEntity();
         when(sessionFactory.getCurrentSession()).thenReturn(session);
     }
 
@@ -86,7 +85,7 @@ public class DirectoryHibernateDaoTest {
 
     @Test(expected = UnsupportedOperationException.class)
     public void createFKTest() {
-        dao.create(testedEntity, id);
+        dao.create(testedEntity, foreignId);
     }
 
     @Test
@@ -124,7 +123,7 @@ public class DirectoryHibernateDaoTest {
 
     @Test(expected = UnsupportedOperationException.class)
     public void updateFKTest() {
-        dao.update(testedEntity, id);
+        dao.update(testedEntity, foreignId);
     }
 
     @Test
@@ -132,5 +131,9 @@ public class DirectoryHibernateDaoTest {
         dao.delete(testedEntity);
         verify(sessionFactory, times(1)).getCurrentSession();
         verify(session, times(1)).delete(testedEntity);
+    }
+
+    private DirectoryEntity getNewEntity() {
+        return new DirectoryEntity(id, Type.CITY, "test value");
     }
 }

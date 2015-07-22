@@ -58,20 +58,19 @@ public class ActivityHibernateDaoTest {
     @InjectMocks
     private ActivityHibernateDao dao;
 
-    private ActivityEntity testedEntity;
-
-    private ActivityEntity expectedEntity;
-
     private final Integer id = 999;
+
+    private final Integer foreignId = 111;
+
+    private final Date date = new Date();
+
+    private final ActivityEntity expectedEntity = getNewEntity();
+
+    private ActivityEntity testedEntity;
 
     @Before
     public void setUp() {
-        Date date = new Date();
-        String description = "test description";
-        String results = "test results";
-        String note = "test note";
-        testedEntity = new ActivityEntity(id, null, date, description, results, note, null);
-        expectedEntity = new ActivityEntity(id, null, date, description, results, note, null);
+        testedEntity = getNewEntity();
         when(sessionFactory.getCurrentSession()).thenReturn(session);
     }
 
@@ -90,9 +89,9 @@ public class ActivityHibernateDaoTest {
     public void createFKTest() {
         Serializable serializable = id;
         when(session.save(testedEntity)).thenReturn(serializable);
-        Integer result = dao.create(testedEntity, id);
+        Integer result = dao.create(testedEntity, foreignId);
         verify(sessionFactory, times(2)).getCurrentSession();
-        verify(session, times(1)).get(CustomerEntity.class, id);
+        verify(session, times(1)).get(CustomerEntity.class, foreignId);
         verify(session, times(1)).save(testedEntity);
         assertNotNull(result);
         assertEquals(id, result);
@@ -133,9 +132,9 @@ public class ActivityHibernateDaoTest {
 
     @Test
     public void updateFKTest() {
-        dao.update(testedEntity, id);
+        dao.update(testedEntity, foreignId);
         verify(sessionFactory, times(2)).getCurrentSession();
-        verify(session, times(1)).get(CustomerEntity.class, id);
+        verify(session, times(1)).get(CustomerEntity.class, foreignId);
         verify(session, times(1)).update(testedEntity);
     }
 
@@ -144,5 +143,9 @@ public class ActivityHibernateDaoTest {
         dao.delete(testedEntity);
         verify(sessionFactory, times(1)).getCurrentSession();
         verify(session, times(1)).delete(testedEntity);
+    }
+
+    private ActivityEntity getNewEntity() {
+        return new ActivityEntity(id, null, date, "test description", "test results", "test note", null);
     }
 }
