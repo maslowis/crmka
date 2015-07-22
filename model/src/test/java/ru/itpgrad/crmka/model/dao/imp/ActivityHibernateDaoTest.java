@@ -58,31 +58,30 @@ public class ActivityHibernateDaoTest {
     @InjectMocks
     private ActivityHibernateDao dao;
 
-    private ActivityEntity entity;
+    private ActivityEntity testedEntity;
+
+    private ActivityEntity expectedEntity;
 
     private final Integer id = 999;
 
-    private final Date date = new Date();
-
-    private final String description = "test description";
-
-    private final String results = "test results";
-
-    private final String note = "test note";
-
     @Before
     public void setUp() {
-        entity = new ActivityEntity(id, null, date, description, results, note, null);
+        Date date = new Date();
+        String description = "test description";
+        String results = "test results";
+        String note = "test note";
+        testedEntity = new ActivityEntity(id, null, date, description, results, note, null);
+        expectedEntity = new ActivityEntity(id, null, date, description, results, note, null);
         when(sessionFactory.getCurrentSession()).thenReturn(session);
     }
 
     @Test
     public void createTest() {
         Serializable serializable = id;
-        when(session.save(entity)).thenReturn(serializable);
-        Integer result = dao.create(entity);
+        when(session.save(testedEntity)).thenReturn(serializable);
+        Integer result = dao.create(testedEntity);
         verify(sessionFactory, times(1)).getCurrentSession();
-        verify(session, times(1)).save(entity);
+        verify(session, times(1)).save(testedEntity);
         assertNotNull(result);
         assertEquals(id, result);
     }
@@ -90,67 +89,60 @@ public class ActivityHibernateDaoTest {
     @Test
     public void createFKTest() {
         Serializable serializable = id;
-        when(session.save(entity)).thenReturn(serializable);
-        Integer result = dao.create(entity, id);
+        when(session.save(testedEntity)).thenReturn(serializable);
+        Integer result = dao.create(testedEntity, id);
         verify(sessionFactory, times(2)).getCurrentSession();
         verify(session, times(1)).get(CustomerEntity.class, id);
-        verify(session, times(1)).save(entity);
+        verify(session, times(1)).save(testedEntity);
         assertNotNull(result);
         assertEquals(id, result);
     }
 
     @Test
     public void readTest() {
-        Object object = entity;
+        Object object = testedEntity;
         when(session.get(ActivityEntity.class, id)).thenReturn(object);
         ActivityEntity result = dao.read(id);
         verify(sessionFactory, times(1)).getCurrentSession();
         verify(session, times(1)).get(ActivityEntity.class, id);
         assertNotNull(result);
-        assertEquals(id, result.getId());
-        assertEquals(date, result.getDate());
-        assertEquals(description, result.getDescription());
-        assertEquals(results, result.getResult());
-        assertEquals(note, result.getNote());
+        assertEquals(expectedEntity, result);
     }
 
     @Test
     public void readAllTest() {
-        Object object = entity;
+        Object object = testedEntity;
         when(session.createCriteria(ActivityEntity.class)).thenReturn(criteria);
         when(criteria.list()).thenReturn(Arrays.asList(object));
-        List<ActivityEntity> result = dao.readAll();
+        List<ActivityEntity> results = dao.readAll();
         verify(sessionFactory, times(1)).getCurrentSession();
         verify(session, times(1)).createCriteria(ActivityEntity.class);
         verify(criteria, times(1)).list();
-        assertNotNull(result);
-        assertFalse(result.isEmpty());
-        assertEquals(id, result.get(0).getId());
-        assertEquals(date, result.get(0).getDate());
-        assertEquals(description, result.get(0).getDescription());
-        assertEquals(results, result.get(0).getResult());
-        assertEquals(note, result.get(0).getNote());
+        assertNotNull(results);
+        assertFalse(results.isEmpty());
+        assertTrue(results.size() == 1);
+        assertEquals(expectedEntity, results.get(0));
     }
 
     @Test
     public void updateTest() {
-        dao.update(entity);
+        dao.update(testedEntity);
         verify(sessionFactory, times(1)).getCurrentSession();
-        verify(session, times(1)).update(entity);
+        verify(session, times(1)).update(testedEntity);
     }
 
     @Test
     public void updateFKTest() {
-        dao.update(entity, id);
+        dao.update(testedEntity, id);
         verify(sessionFactory, times(2)).getCurrentSession();
         verify(session, times(1)).get(CustomerEntity.class, id);
-        verify(session, times(1)).update(entity);
+        verify(session, times(1)).update(testedEntity);
     }
 
     @Test
     public void deleteTest() {
-        dao.delete(entity);
+        dao.delete(testedEntity);
         verify(sessionFactory, times(1)).getCurrentSession();
-        verify(session, times(1)).delete(entity);
+        verify(session, times(1)).delete(testedEntity);
     }
 }

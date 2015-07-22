@@ -58,52 +58,51 @@ public class DirectoryHibernateDaoTest {
     @InjectMocks
     private DirectoryHibernateDao dao;
 
-    private DirectoryEntity entity;
+    private DirectoryEntity testedEntity;
+
+    private DirectoryEntity expectedEntity;
 
     private final Integer id = 999;
 
-    private final Type type = Type.CITY;
-
-    private final String value = "test value";
-
     @Before
     public void setUp() {
-        entity = new DirectoryEntity(id, type, value);
+        Type type = Type.CITY;
+        String value = "test value";
+        testedEntity = new DirectoryEntity(id, type, value);
+        expectedEntity = new DirectoryEntity(id, type, value);
         when(sessionFactory.getCurrentSession()).thenReturn(session);
     }
 
     @Test
     public void createTest() {
         Serializable serializable = id;
-        when(session.save(entity)).thenReturn(serializable);
-        Integer result = dao.create(entity);
+        when(session.save(testedEntity)).thenReturn(serializable);
+        Integer result = dao.create(testedEntity);
         verify(sessionFactory, times(1)).getCurrentSession();
-        verify(session, times(1)).save(entity);
+        verify(session, times(1)).save(testedEntity);
         assertNotNull(result);
         assertEquals(id, result);
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void createFKTest() {
-        dao.create(entity, id);
+        dao.create(testedEntity, id);
     }
 
     @Test
     public void readTest() {
-        Object object = entity;
+        Object object = testedEntity;
         when(session.get(DirectoryEntity.class, id)).thenReturn(object);
         DirectoryEntity result = dao.read(id);
         verify(sessionFactory, times(1)).getCurrentSession();
         verify(session, times(1)).get(DirectoryEntity.class, id);
         assertNotNull(result);
-        assertEquals(id, result.getId());
-        assertEquals(type, result.getType());
-        assertEquals(value, result.getValue());
+        assertEquals(expectedEntity, result);
     }
 
     @Test
     public void readAllTest() {
-        Object object = entity;
+        Object object = testedEntity;
         when(session.createCriteria(DirectoryEntity.class)).thenReturn(criteria);
         when(criteria.list()).thenReturn(Arrays.asList(object));
         List<DirectoryEntity> result = dao.readAll();
@@ -112,28 +111,26 @@ public class DirectoryHibernateDaoTest {
         verify(criteria, times(1)).list();
         assertNotNull(result);
         assertFalse(result.isEmpty());
-        assertTrue(1 == result.size());
-        assertEquals(id, result.get(0).getId());
-        assertEquals(type, result.get(0).getType());
-        assertEquals(value, result.get(0).getValue());
+        assertTrue(result.size() == 1);
+        assertEquals(expectedEntity, result.get(0));
     }
 
     @Test
     public void updateTest() {
-        dao.update(entity);
+        dao.update(testedEntity);
         verify(sessionFactory, times(1)).getCurrentSession();
-        verify(session, times(1)).update(entity);
+        verify(session, times(1)).update(testedEntity);
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void updateFKTest() {
-        dao.update(entity, id);
+        dao.update(testedEntity, id);
     }
 
     @Test
-    public void deleteTest(){
-        dao.delete(entity);
+    public void deleteTest() {
+        dao.delete(testedEntity);
         verify(sessionFactory, times(1)).getCurrentSession();
-        verify(session, times(1)).delete(entity);
+        verify(session, times(1)).delete(testedEntity);
     }
 }

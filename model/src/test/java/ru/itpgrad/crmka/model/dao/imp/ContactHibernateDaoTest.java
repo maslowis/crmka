@@ -58,31 +58,30 @@ public class ContactHibernateDaoTest {
     @InjectMocks
     private ContactHibernateDao dao;
 
-    private ContactEntity entity;
+    private ContactEntity testedEntity;
+
+    private ContactEntity expectedEntity;
 
     private final Integer id = 999;
 
-    private final String position = "test position";
-
-    private final String name = "test name";
-
-    private final String phone = "test phone";
-
-    private final String mail = "test mail";
-
     @Before
     public void setUp() {
-        entity = new ContactEntity(id, position, name, phone, mail, null);
+        String position = "test position";
+        String name = "test name";
+        String phone = "test phone";
+        String mail = "test mail";
+        testedEntity = new ContactEntity(id, position, name, phone, mail, null);
+        expectedEntity = new ContactEntity(id, position, name, phone, mail, null);
         when(sessionFactory.getCurrentSession()).thenReturn(session);
     }
 
     @Test
     public void createTest() {
         Serializable serializable = id;
-        when(session.save(entity)).thenReturn(serializable);
-        Integer result = dao.create(entity);
+        when(session.save(testedEntity)).thenReturn(serializable);
+        Integer result = dao.create(testedEntity);
         verify(sessionFactory, times(1)).getCurrentSession();
-        verify(session, times(1)).save(entity);
+        verify(session, times(1)).save(testedEntity);
         assertNotNull(result);
         assertEquals(id, result);
     }
@@ -90,67 +89,60 @@ public class ContactHibernateDaoTest {
     @Test
     public void createFKTest() {
         Serializable serializable = id;
-        when(session.save(entity)).thenReturn(serializable);
-        Integer result = dao.create(entity, id);
+        when(session.save(testedEntity)).thenReturn(serializable);
+        Integer result = dao.create(testedEntity, id);
         verify(sessionFactory, times(2)).getCurrentSession();
         verify(session, times(1)).get(CustomerEntity.class, id);
-        verify(session, times(1)).save(entity);
+        verify(session, times(1)).save(testedEntity);
         assertNotNull(result);
         assertEquals(id, result);
     }
 
     @Test
     public void readTest() {
-        Object object = entity;
+        Object object = testedEntity;
         when(session.get(ContactEntity.class, id)).thenReturn(object);
         ContactEntity result = dao.read(id);
         verify(sessionFactory, times(1)).getCurrentSession();
         verify(session, times(1)).get(ContactEntity.class, id);
         assertNotNull(result);
-        assertEquals(id, result.getId());
-        assertEquals(position, result.getPosition());
-        assertEquals(name, result.getName());
-        assertEquals(phone, result.getPhone());
-        assertEquals(mail, result.getMail());
+        assertEquals(expectedEntity, result);
     }
 
     @Test
     public void readAllTest() {
-        Object object = entity;
+        Object object = testedEntity;
         when(session.createCriteria(ContactEntity.class)).thenReturn(criteria);
         when(criteria.list()).thenReturn(Arrays.asList(object));
-        List<ContactEntity> result = dao.readAll();
+        List<ContactEntity> results = dao.readAll();
         verify(sessionFactory, times(1)).getCurrentSession();
         verify(session, times(1)).createCriteria(ContactEntity.class);
         verify(criteria, times(1)).list();
-        assertNotNull(result);
-        assertFalse(result.isEmpty());
-        assertEquals(id, result.get(0).getId());
-        assertEquals(position, result.get(0).getPosition());
-        assertEquals(name, result.get(0).getName());
-        assertEquals(phone, result.get(0).getPhone());
-        assertEquals(mail, result.get(0).getMail());
+        assertNotNull(results);
+        assertFalse(results.isEmpty());
+        assertTrue(results.size() == 1);
+        assertEquals(expectedEntity, results.get(0));
     }
 
     @Test
     public void updateTest() {
-        dao.update(entity);
+        dao.update(testedEntity);
         verify(sessionFactory, times(1)).getCurrentSession();
-        verify(session, times(1)).update(entity);
+        verify(session, times(1)).update(testedEntity);
     }
 
     @Test
     public void updateFKTest() {
-        dao.update(entity, id);
+        dao.update(testedEntity, id);
         verify(sessionFactory, times(2)).getCurrentSession();
         verify(session, times(1)).get(CustomerEntity.class, id);
-        verify(session, times(1)).update(entity);
+        verify(session, times(1)).update(testedEntity);
     }
 
     @Test
     public void deleteTest() {
-        dao.delete(entity);
+        dao.delete(testedEntity);
         verify(sessionFactory, times(1)).getCurrentSession();
-        verify(session, times(1)).delete(entity);
+        verify(session, times(1)).delete(testedEntity);
     }
 }

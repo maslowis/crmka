@@ -57,85 +57,80 @@ public class CustomerHibernateDaoTest {
     @InjectMocks
     private CustomerHibernateDao dao;
 
-    private CustomerEntity entity;
+    private CustomerEntity testedEntity;
+
+    private CustomerEntity expectedEntity;
 
     private final Integer id = 999;
 
-    private final String name = "test name";
-
-    private final String description = "test description";
-
-    private final String note = "test note";
-
     @Before
     public void setUp() {
-        entity = new CustomerEntity(id, null, null, null, name, description, null, null, null, note);
+        String name = "test name";
+        String description = "test description";
+        String note = "test note";
+        testedEntity = new CustomerEntity(id, null, null, null, name, description, null, null, null, note);
+        expectedEntity = new CustomerEntity(id, null, null, null, name, description, null, null, null, note);
         when(sessionFactory.getCurrentSession()).thenReturn(session);
     }
 
     @Test
     public void createTest() {
         Serializable serializable = id;
-        when(session.save(entity)).thenReturn(serializable);
-        Integer result = dao.create(entity);
+        when(session.save(testedEntity)).thenReturn(serializable);
+        Integer result = dao.create(testedEntity);
         verify(sessionFactory, times(1)).getCurrentSession();
-        verify(session, times(1)).save(entity);
+        verify(session, times(1)).save(testedEntity);
         assertNotNull(result);
         assertEquals(id, result);
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void createFKTest() {
-        dao.create(entity, id);
+        dao.create(testedEntity, id);
     }
 
     @Test
     public void readTest() {
-        Object object = entity;
+        Object object = testedEntity;
         when(session.get(CustomerEntity.class, id)).thenReturn(object);
         CustomerEntity result = dao.read(id);
         verify(sessionFactory, times(1)).getCurrentSession();
         verify(session, times(1)).get(CustomerEntity.class, id);
         assertNotNull(result);
-        assertEquals(id, result.getId());
-        assertEquals(name, result.getName());
-        assertEquals(description, result.getDescription());
-        assertEquals(note, result.getNote());
+        assertEquals(expectedEntity, result);
     }
 
     @Test
     public void readAllTest() {
-        Object object = entity;
+        Object object = testedEntity;
         when(session.createCriteria(CustomerEntity.class)).thenReturn(criteria);
         when(criteria.list()).thenReturn(Arrays.asList(object));
-        List<CustomerEntity> result = dao.readAll();
+        List<CustomerEntity> results = dao.readAll();
         verify(sessionFactory, times(1)).getCurrentSession();
         verify(session, times(1)).createCriteria(CustomerEntity.class);
         verify(criteria, times(1)).list();
-        assertNotNull(result);
-        assertFalse(result.isEmpty());
-        assertEquals(id, result.get(0).getId());
-        assertEquals(name, result.get(0).getName());
-        assertEquals(description, result.get(0).getDescription());
-        assertEquals(note, result.get(0).getNote());
+        assertNotNull(results);
+        assertFalse(results.isEmpty());
+        assertTrue(results.size() == 1);
+        assertEquals(expectedEntity, results.get(0));
     }
 
     @Test
     public void updateTest() {
-        dao.update(entity);
+        dao.update(testedEntity);
         verify(sessionFactory, times(1)).getCurrentSession();
-        verify(session, times(1)).update(entity);
+        verify(session, times(1)).update(testedEntity);
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void updateFKTest() {
-        dao.update(entity, id);
+        dao.update(testedEntity, id);
     }
 
     @Test
     public void deleteTest() {
-        dao.delete(entity);
+        dao.delete(testedEntity);
         verify(sessionFactory, times(1)).getCurrentSession();
-        verify(session, times(1)).delete(entity);
+        verify(session, times(1)).delete(testedEntity);
     }
 }
