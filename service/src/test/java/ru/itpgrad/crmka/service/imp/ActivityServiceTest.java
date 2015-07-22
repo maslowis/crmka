@@ -33,38 +33,43 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import ru.itpgrad.crmka.model.dao.Dao;
+import ru.itpgrad.crmka.model.entity.imp.ActivityEntity;
+import ru.itpgrad.crmka.model.entity.imp.CustomerEntity;
 import ru.itpgrad.crmka.model.entity.imp.DirectoryEntity;
+import ru.itpgrad.crmka.service.dto.imp.ActivityDto;
 import ru.itpgrad.crmka.service.dto.imp.DirectoryDto;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class DirectoryServiceTest {
+public class ActivityServiceTest {
 
     @Mock
-    private Dao<DirectoryEntity, Integer> dao;
+    private Dao<ActivityEntity, Integer> dao;
 
     @Spy
     private DozerBeanMapper mapper;
 
     @InjectMocks
-    private DirectoryService service;
+    private ActivityService service;
 
     private final Integer id = 999;
 
     private final Integer foreignId = 111;
 
-    private final DirectoryDto exceptedDto = getNewDto();
+    private final Date date = new Date();
 
-    private DirectoryEntity testedEntity;
+    private final ActivityDto exceptedDto = getNewDto();
 
-    private DirectoryDto testedDto;
+    private ActivityEntity testedEntity;
+
+    private ActivityDto testedDto;
 
     @Before
     public void setUp() {
@@ -74,18 +79,18 @@ public class DirectoryServiceTest {
 
     @Test
     public void createTest() {
-        when(dao.create(any(DirectoryEntity.class))).thenReturn(id);
+        when(dao.create(any(ActivityEntity.class))).thenReturn(id);
         Integer result = service.create(testedDto);
-        verify(dao, times(1)).create(any(DirectoryEntity.class));
+        verify(dao, times(1)).create(any(ActivityEntity.class));
         assertNotNull(result);
         assertEquals(id, result);
     }
 
     @Test
     public void createFKTest() {
-        when(dao.create(any(DirectoryEntity.class), eq(foreignId))).thenReturn(id);
+        when(dao.create(any(ActivityEntity.class), eq(foreignId))).thenReturn(id);
         Integer result = service.create(testedDto, foreignId);
-        verify(dao, times(1)).create(any(DirectoryEntity.class), eq(foreignId));
+        verify(dao, times(1)).create(any(ActivityEntity.class), eq(foreignId));
         assertNotNull(result);
         assertEquals(id, result);
     }
@@ -93,7 +98,7 @@ public class DirectoryServiceTest {
     @Test
     public void readTest() {
         when(dao.read(id)).thenReturn(testedEntity);
-        DirectoryDto result = service.read(id);
+        ActivityDto result = service.read(id);
         verify(dao, times(1)).read(id);
         assertNotNull(result);
         assertEquals(exceptedDto, result);
@@ -102,7 +107,7 @@ public class DirectoryServiceTest {
     @Test
     public void readAllTest() {
         when(dao.readAll()).thenReturn(Arrays.asList(testedEntity));
-        List<DirectoryDto> results = service.readAll();
+        List<ActivityDto> results = service.readAll();
         verify(dao, times(1)).readAll();
         assertNotNull(results);
         assertFalse(results.isEmpty());
@@ -113,26 +118,28 @@ public class DirectoryServiceTest {
     @Test
     public void updateTest() {
         service.update(testedDto);
-        verify(dao, times(1)).update(any(DirectoryEntity.class));
+        verify(dao, times(1)).update(any(ActivityEntity.class));
     }
 
     @Test
     public void updateFKTest() {
         service.update(testedDto, foreignId);
-        verify(dao, times(1)).update(any(DirectoryEntity.class), eq(foreignId));
+        verify(dao, times(1)).update(any(ActivityEntity.class), eq(foreignId));
     }
 
     @Test
     public void deleteTest() {
         service.delete(testedDto);
-        verify(dao, times(1)).delete(any(DirectoryEntity.class));
+        verify(dao, times(1)).delete(any(ActivityEntity.class));
     }
 
-    private DirectoryEntity getNewEntity() {
-        return new DirectoryEntity(id, DirectoryEntity.Type.COUNTRY, "test country");
+    private ActivityEntity getNewEntity() {
+        DirectoryEntity status = new DirectoryEntity(1, DirectoryEntity.Type.ACTIVITY_STATUS, "test status");
+        return new ActivityEntity(id, status, date, "test description", "test result", "test note", new CustomerEntity());
     }
 
-    private DirectoryDto getNewDto() {
-        return new DirectoryDto(id, "COUNTRY", "test country");
+    private ActivityDto getNewDto() {
+        DirectoryDto status = new DirectoryDto(1, "ACTIVITY_STATUS", "test status");
+        return new ActivityDto(id, status, date, "test description", "test result", "test note");
     }
 }

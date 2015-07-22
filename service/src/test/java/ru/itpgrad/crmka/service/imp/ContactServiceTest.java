@@ -33,38 +33,37 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import ru.itpgrad.crmka.model.dao.Dao;
-import ru.itpgrad.crmka.model.entity.imp.DirectoryEntity;
-import ru.itpgrad.crmka.service.dto.imp.DirectoryDto;
+import ru.itpgrad.crmka.model.entity.imp.ContactEntity;
+import ru.itpgrad.crmka.service.dto.imp.ContactDto;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class DirectoryServiceTest {
+public class ContactServiceTest {
 
     @Mock
-    private Dao<DirectoryEntity, Integer> dao;
+    private Dao<ContactEntity, Integer> dao;
 
     @Spy
     private DozerBeanMapper mapper;
 
     @InjectMocks
-    private DirectoryService service;
+    private ContactService service;
 
     private final Integer id = 999;
 
     private final Integer foreignId = 111;
 
-    private final DirectoryDto exceptedDto = getNewDto();
+    private final ContactDto exceptedDto = getNewDto();
 
-    private DirectoryEntity testedEntity;
+    private ContactEntity testedEntity;
 
-    private DirectoryDto testedDto;
+    private ContactDto testedDto;
 
     @Before
     public void setUp() {
@@ -74,18 +73,18 @@ public class DirectoryServiceTest {
 
     @Test
     public void createTest() {
-        when(dao.create(any(DirectoryEntity.class))).thenReturn(id);
+        when(dao.create(any(ContactEntity.class))).thenReturn(id);
         Integer result = service.create(testedDto);
-        verify(dao, times(1)).create(any(DirectoryEntity.class));
+        verify(dao, times(1)).create(any(ContactEntity.class));
         assertNotNull(result);
         assertEquals(id, result);
     }
 
     @Test
     public void createFKTest() {
-        when(dao.create(any(DirectoryEntity.class), eq(foreignId))).thenReturn(id);
+        when(dao.create(any(ContactEntity.class), eq(foreignId))).thenReturn(id);
         Integer result = service.create(testedDto, foreignId);
-        verify(dao, times(1)).create(any(DirectoryEntity.class), eq(foreignId));
+        verify(dao, times(1)).create(any(ContactEntity.class), eq(foreignId));
         assertNotNull(result);
         assertEquals(id, result);
     }
@@ -93,7 +92,7 @@ public class DirectoryServiceTest {
     @Test
     public void readTest() {
         when(dao.read(id)).thenReturn(testedEntity);
-        DirectoryDto result = service.read(id);
+        ContactDto result = service.read(id);
         verify(dao, times(1)).read(id);
         assertNotNull(result);
         assertEquals(exceptedDto, result);
@@ -102,7 +101,7 @@ public class DirectoryServiceTest {
     @Test
     public void readAllTest() {
         when(dao.readAll()).thenReturn(Arrays.asList(testedEntity));
-        List<DirectoryDto> results = service.readAll();
+        List<ContactDto> results = service.readAll();
         verify(dao, times(1)).readAll();
         assertNotNull(results);
         assertFalse(results.isEmpty());
@@ -113,26 +112,26 @@ public class DirectoryServiceTest {
     @Test
     public void updateTest() {
         service.update(testedDto);
-        verify(dao, times(1)).update(any(DirectoryEntity.class));
+        verify(dao, times(1)).update(any(ContactEntity.class));
     }
 
     @Test
     public void updateFKTest() {
         service.update(testedDto, foreignId);
-        verify(dao, times(1)).update(any(DirectoryEntity.class), eq(foreignId));
+        verify(dao, times(1)).update(any(ContactEntity.class), eq(foreignId));
     }
 
     @Test
     public void deleteTest() {
         service.delete(testedDto);
-        verify(dao, times(1)).delete(any(DirectoryEntity.class));
+        verify(dao, times(1)).delete(any(ContactEntity.class));
     }
 
-    private DirectoryEntity getNewEntity() {
-        return new DirectoryEntity(id, DirectoryEntity.Type.COUNTRY, "test country");
+    private ContactEntity getNewEntity() {
+        return new ContactEntity(id, "test position", "test name", "test phone", "test mail", null);
     }
 
-    private DirectoryDto getNewDto() {
-        return new DirectoryDto(id, "COUNTRY", "test country");
+    private ContactDto getNewDto() {
+        return new ContactDto(id, "test position", "test name", "test phone", "test mail");
     }
 }
