@@ -118,6 +118,29 @@ public class ContactEntity implements ru.itpgrad.crmka.model.entity.Entity<Integ
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ContactEntity)) return false;
+        ContactEntity entity = (ContactEntity) o;
+        if (id != null ? !id.equals(entity.id) : entity.id != null) return false;
+        if (name != null ? !name.equals(entity.name) : entity.name != null) return false;
+        if (mail != null ? !mail.equals(entity.mail) : entity.mail != null) return false;
+        if (phone != null ? !phone.equals(entity.phone) : entity.phone != null) return false;
+        if (position != null ? !position.equals(entity.position) : entity.position != null) return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (position != null ? position.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (phone != null ? phone.hashCode() : 0);
+        result = 31 * result + (mail != null ? mail.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "ContactEntity{" +
                 "id=" + id +
@@ -125,7 +148,6 @@ public class ContactEntity implements ru.itpgrad.crmka.model.entity.Entity<Integ
                 ", name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
                 ", mail='" + mail + '\'' +
-                ", customer=" + customer +
                 '}';
     }
 }

@@ -132,15 +132,39 @@ public class ActivityEntity implements ru.itpgrad.crmka.model.entity.Entity<Inte
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ActivityEntity)) return false;
+        ActivityEntity entity = (ActivityEntity) o;
+        if (id != null ? !id.equals(entity.id) : entity.id != null) return false;
+        if (date != null ? !date.equals(entity.date) : entity.date != null) return false;
+        if (description != null ? !description.equals(entity.description) : entity.description != null) return false;
+        if (note != null ? !note.equals(entity.note) : entity.note != null) return false;
+        if (result != null ? !result.equals(entity.result) : entity.result != null) return false;
+        if (status != null ? !status.equals(entity.status) : entity.status != null) return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result1 = id != null ? id.hashCode() : 0;
+        result1 = 31 * result1 + (status != null ? status.hashCode() : 0);
+        result1 = 31 * result1 + (date != null ? date.hashCode() : 0);
+        result1 = 31 * result1 + (description != null ? description.hashCode() : 0);
+        result1 = 31 * result1 + (result != null ? result.hashCode() : 0);
+        result1 = 31 * result1 + (note != null ? note.hashCode() : 0);
+        return result1;
+    }
+
+    @Override
     public String toString() {
         return "ActivityEntity{" +
-                "id=" + id +
-                ", status=" + status +
-                ", date=" + date +
-                ", description='" + description + '\'' +
+                "note='" + note + '\'' +
                 ", result='" + result + '\'' +
-                ", note='" + note + '\'' +
-                ", customer=" + customer +
+                ", description='" + description + '\'' +
+                ", date=" + date +
+                ", status=" + status +
+                ", id=" + id +
                 '}';
     }
 }

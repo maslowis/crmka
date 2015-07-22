@@ -173,6 +173,35 @@ public class CustomerEntity implements ru.itpgrad.crmka.model.entity.Entity<Inte
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CustomerEntity)) return false;
+        CustomerEntity that = (CustomerEntity) o;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (city != null ? !city.equals(that.city) : that.city != null) return false;
+        if (country != null ? !country.equals(that.country) : that.country != null) return false;
+        if (description != null ? !description.equals(that.description) : that.description != null) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (note != null ? !note.equals(that.note) : that.note != null) return false;
+        if (region != null ? !region.equals(that.region) : that.region != null) return false;
+        if (status != null ? !status.equals(that.status) : that.status != null) return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (country != null ? country.hashCode() : 0);
+        result = 31 * result + (region != null ? region.hashCode() : 0);
+        result = 31 * result + (city != null ? city.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + (note != null ? note.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "CustomerEntity{" +
                 "id=" + id +

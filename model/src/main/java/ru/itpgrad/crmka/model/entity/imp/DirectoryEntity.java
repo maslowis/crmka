@@ -92,6 +92,25 @@ public class DirectoryEntity implements Entity<Integer> {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DirectoryEntity)) return false;
+        DirectoryEntity that = (DirectoryEntity) o;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (type != that.type) return false;
+        if (value != null ? !value.equals(that.value) : that.value != null) return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (value != null ? value.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "DirectoryEntity{" +
                 "id=" + id +
