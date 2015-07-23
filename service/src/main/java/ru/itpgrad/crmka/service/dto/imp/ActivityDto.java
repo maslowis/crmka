@@ -110,6 +110,31 @@ public class ActivityDto implements Dto<Integer> {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ActivityDto)) return false;
+        ActivityDto that = (ActivityDto) o;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (date != null ? !date.equals(that.date) : that.date != null) return false;
+        if (description != null ? !description.equals(that.description) : that.description != null) return false;
+        if (note != null ? !note.equals(that.note) : that.note != null) return false;
+        if (result != null ? !result.equals(that.result) : that.result != null) return false;
+        if (status != null ? !status.equals(that.status) : that.status != null) return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result1 = id != null ? id.hashCode() : 0;
+        result1 = 31 * result1 + (status != null ? status.hashCode() : 0);
+        result1 = 31 * result1 + (date != null ? date.hashCode() : 0);
+        result1 = 31 * result1 + (description != null ? description.hashCode() : 0);
+        result1 = 31 * result1 + (result != null ? result.hashCode() : 0);
+        result1 = 31 * result1 + (note != null ? note.hashCode() : 0);
+        return result1;
+    }
+
+    @Override
     public String toString() {
         return "ActivityDto{" +
                 "id=" + id +

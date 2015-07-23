@@ -97,6 +97,29 @@ public class ContactDto implements Dto<Integer> {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ContactDto)) return false;
+        ContactDto that = (ContactDto) o;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (mail != null ? !mail.equals(that.mail) : that.mail != null) return false;
+        if (phone != null ? !phone.equals(that.phone) : that.phone != null) return false;
+        if (position != null ? !position.equals(that.position) : that.position != null) return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (position != null ? position.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (phone != null ? phone.hashCode() : 0);
+        result = 31 * result + (mail != null ? mail.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "ContactDto{" +
                 "id=" + id +
